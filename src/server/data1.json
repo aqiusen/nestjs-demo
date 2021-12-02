@@ -1,6 +1,6 @@
 {
-  "info": {
-    "age": 11,
-    "name": "zhangsan"
+  "coupons": {
+    "id": 1,
+    "name": "优惠券1"
   }
 }
