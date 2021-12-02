@@ -13,8 +13,6 @@ import {
 import { CatsService } from './cats.service';
 import { ForbiddenException } from '../filter/ForbiddenException';
 import { LoggingInterceptor } from '../interceptor/LoggingInterceptor';
-import { LitteCatsService } from '../litte-cats/litte-cats.service';
-import MyLoggerService from 'src/log/MyLogger.service';
 import { Inject } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 @Controller('cats')
@@ -23,7 +21,6 @@ export class CatsController {
   constructor(
     @Inject(REQUEST) private request,
     private readonly catsService: CatsService,
-    private litterCats: LitteCatsService,
   ) {}
 
   @Get('/')
@@ -34,8 +31,6 @@ export class CatsController {
 
   @Get('/list')
   getList() {
-    console.log('@@@@@@test');
-    console.log(this.litterCats.getLitterCats());
     const list = [];
     for (let i = 0; i < 10; i++) {
       list.push('this is item ' + i);

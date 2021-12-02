@@ -12,16 +12,13 @@ import { catchError, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import _ from 'lodash';
 import { flow, merge, omit } from 'lodash/fp';
-import { BffLoggerService } from '../bff-logger/BffLoggerService';
 
 @Injectable({ scope: Scope.REQUEST })
 export class BffHttpService {
   constructor(
-    private readonly httpService: HttpService,
+    public readonly httpService: HttpService,
     @Inject(REQUEST) private readonly request: Request,
-    public readonly bffLogger: BffLoggerService,
   ) {}
-
   HTTP_DATA_HANDLER = (res: AxiosResponse) => {
     return res.data;
   };
@@ -58,21 +55,23 @@ export class BffHttpService {
 
     NOTICE: Please only send the header u need as headers, avoid to use big header e.g. request.headers
     */
-    const originalKeepHeaders = _.pick(this.request.headers, [
-      'x-transaction-id',
-      'x-starbucks-id',
-      'x-customer-id',
-      'x-session-type',
-      'x-user-id',
-      'x-app-version',
-      'x-phone-type',
-      'x-forwarded-for',
-      'x-channel',
-      'x-store-api-version',
-      'lang',
-      'ad-code',
-    ]);
-    return _.merge(originalKeepHeaders, headers);
+    console.log(headers, this.request.headers);
+    // const originalKeepHeaders = _.pick(this.request.headers, [
+    //   'x-transaction-id',
+    //   'x-starbucks-id',
+    //   'x-customer-id',
+    //   'x-session-type',
+    //   'x-user-id',
+    //   'x-app-version',
+    //   'x-phone-type',
+    //   'x-forwarded-for',
+    //   'x-channel',
+    //   'x-store-api-version',
+    //   'lang',
+    //   'ad-code',
+    // ]);
+    // return _.merge(originalKeepHeaders, headers);
+    return headers;
   }
 
   getMergeRequestHeaders(headers = {}, ignoreHeaders = []) {
@@ -120,6 +119,7 @@ export class BffHttpService {
     config.headers = this.getDefaultHeaders(config.headers);
     return this.httpService.get(url, config).pipe(
       map((res) => {
+        console.log(res);
         return res;
       }),
       catchError((err) => this.HTTP_ERROR_HANDLER(err, upstreamName)),
