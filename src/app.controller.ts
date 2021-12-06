@@ -1,4 +1,4 @@
-import { Controller, Get, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, UseInterceptors } from '@nestjs/common';
 import { catchError, flatMap, map } from 'rxjs/operators';
 import { AppService } from './app.service';
 import { forkJoin, of, throwError } from 'rxjs';
@@ -19,8 +19,9 @@ export class AppController {
    *  如果不加拦截器，这里会报这个错误，并且返回数据为500
    * */
   @Get('/litter')
-  // @UseInterceptors(TransformResponseExtractDataInterceptor)
-  getLitterCats() {
+  @UseInterceptors(TransformResponseExtractDataInterceptor)
+  getLitterCats(@Body() body) {
+    console.log('body == ', body);
     return this.litterService.getLitterCats();
   }
 

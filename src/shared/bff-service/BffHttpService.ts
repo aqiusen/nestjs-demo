@@ -55,7 +55,6 @@ export class BffHttpService {
 
     NOTICE: Please only send the header u need as headers, avoid to use big header e.g. request.headers
     */
-    console.log(headers, this.request.headers);
     // const originalKeepHeaders = _.pick(this.request.headers, [
     //   'x-transaction-id',
     //   'x-starbucks-id',
@@ -119,7 +118,6 @@ export class BffHttpService {
     config.headers = this.getDefaultHeaders(config.headers);
     return this.httpService.get(url, config).pipe(
       map((res) => {
-        console.log(res);
         return res;
       }),
       catchError((err) => this.HTTP_ERROR_HANDLER(err, upstreamName)),

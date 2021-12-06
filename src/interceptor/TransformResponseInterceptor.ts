@@ -3,19 +3,17 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Response } from '../common/constant';
 
-export class TransformResponseExtractDataInterceptor
-  implements NestInterceptor
-{
+export class TransformResponseInterceptor implements NestInterceptor {
   intercept(
     context: ExecutionContext,
     next: CallHandler,
   ): Observable<any> | Promise<Observable<any>> {
-    console.log('local  before');
-    // const request = context.switchToHttp().getRequest();
+    console.log('global  -----before');
     return next.handle().pipe(
       map((data) => {
-        console.log('next -----', data);
-        return Response.success(data.status, data.data.data ?? data.data);
+        console.log('global  -----', data);
+        const result = Response.success(data.status, data.data ?? data);
+        return result;
       }),
     );
   }
